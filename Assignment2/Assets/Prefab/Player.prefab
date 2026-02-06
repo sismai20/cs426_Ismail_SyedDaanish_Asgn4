@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 164037441466023726}
   - component: {fileID: 3523002483814650358}
   - component: {fileID: 7310951172801545870}
+  - component: {fileID: 4107494595074037275}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -359,13 +360,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  speed: 25
-  colors:
-  - {r: 0.9481132, g: 0.0268334, b: 0.0268334, a: 0}
-  - {r: 0.12273052, g: 0.40033954, b: 0.9292453, a: 0}
-  spawnedPrefab: {fileID: 6412424734142825521, guid: bfb068a73fdaa884986ef3af54fb1735, type: 3}
+  movementSpeed: 8
+  rotationSpeed: 90
+  gravity: 20
+  jumpForce: 5
   cannon: {fileID: 5734067001913126162}
   bullet: {fileID: 4249073068765978225, guid: 76d37e7e2a95e904fa67cd7d6835a2f9, type: 3}
+  bulletForwardForce: 1500
+  spawnedPrefab: {fileID: 6412424734142825521, guid: bfb068a73fdaa884986ef3af54fb1735, type: 3}
   audioListener: {fileID: 6541799227114916183}
   playerCamera: {fileID: 6260994297337743200}
 --- !u!114 &164037441466023726
@@ -458,3 +460,49 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &4107494595074037275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6867009043444823106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkTransform
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
