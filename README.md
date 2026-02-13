@@ -36,3 +36,7 @@ The players play as two robbers, stealing data from within a computer. This game
 - [[FREE] Low Poly Sci-Fi Computers Demo - 4 Retro Sample Props](https://assetstore.unity.com/packages/3d/environments/sci-fi/free-low-poly-sci-fi-computers-demo-4-retro-sample-props-322860)
 - [Low Poly Weapons VOL.1](https://assetstore.unity.com/packages/3d/props/guns/low-poly-weapons-vol-1-151980)
 - [Easy Primitve People](https://assetstore.unity.com/packages/3d/characters/easy-primitive-people-161846)
+
+### Music Used in this project:
+- ["One Clue Revealed"](https://www.youtube.com/watch?v=B3t9s3EL-gU) by Daniel Pemberton
+- ["Red Notice"](https://www.youtube.com/watch?v=LS8Cq1GVm2o) by Steve Jablonsky
