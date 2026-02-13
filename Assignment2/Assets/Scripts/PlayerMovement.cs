@@ -1,220 +1,111 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// adding namespaces
 using Unity.Netcode;
-using UnityEngine.InputSystem;
-
+// because we are using the NetworkBehaviour class
+// NewtorkBehaviour class is a part of the Unity.Netcode namespace
+// extension of MonoBehaviour that has functions related to multiplayer
 public class PlayerMovement : NetworkBehaviour
 {
-    public float movementSpeed = 8.0f;
-    public float rotationSpeed = 90.0f;
-    public float gravity = 20.0f;
-    public float jumpForce = 5.0f;
+    public float speed = 2f;
+    // create a list of colors
+    public List<Color> colors = new List<Color>();
 
     public GameObject cannon;
     public GameObject bullet;
-    public float bulletForwardForce = 1500f;
 
-    [SerializeField] private GameObject spawnedPrefab;
+    // reference to the camera audio listener
     [SerializeField] private AudioListener audioListener;
+    // reference to the camera
     [SerializeField] private Camera playerCamera;
-    
-    private GameObject instantiatedPrefab;
+
+	public float mouseSensitivity = 50f;
+	private float xRotation = 0f;
+
     private Rigidbody rb;
-    private Vector2 moveInput;
-    private float rotationInput;
-    private bool jumpRequested;
 
-    /// <summary>
-    /// sets up audio, camera, rotation locks, rigidbody/physics for
-    /// the player (interpolation of differing movements disabled)
-    /// </summary>
+	void Start()
+	{
+		rb = GetComponent<Rigidbody>();
+		rb.freezeRotation = true;
+		Cursor.lockState = CursorLockMode.Locked;
+	}
+
+	void FixedUpdate()
+	{
+		if (!IsOwner) return;
+
+		Vector3 moveDirection = Vector3.zero;
+		if (Input.GetKey(KeyCode.W)) moveDirection.z = +1f;
+		if (Input.GetKey(KeyCode.S)) moveDirection.z = -1f;
+		if (Input.GetKey(KeyCode.A)) moveDirection.x = -1f;
+		if (Input.GetKey(KeyCode.D)) moveDirection.x = +1f;
+
+		// transform direction from local to world space
+		Vector3 worldMove = transform.TransformDirection(moveDirection.normalized);
+		Vector3 velocity = worldMove * speed;
+		rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
+	}
+	
+    void Update()
+    {
+		if (!IsOwner) return;
+
+		// mouse look
+		float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+		float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+
+		// rotate player body left/right
+		transform.Rotate(Vector3.up * mouseX);
+
+		// tilt camera up/down, clamped so you can't look behind yourself
+		xRotation -= mouseY;
+		xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+		playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+		if (Input.GetButtonDown("Fire1"))
+		{
+			Color myColor = colors[(int)OwnerClientId];
+			BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation, myColor);
+		}
+    }
+
     public override void OnNetworkSpawn()
-    {
-        if (!IsOwner) return;
+	{
+		Color tint = colors[(int)OwnerClientId];
+		
+		// get all renderers on this object and its children
+		foreach (var renderer in GetComponentsInChildren<Renderer>())
+		{
+			foreach (var mat in renderer.materials)
+			{
+				// works for URP/HDRP Lit shaders
+				if (mat.HasProperty("_BaseColor"))
+					mat.SetColor("_BaseColor", mat.GetColor("_BaseColor") * tint);
+				// works for Built-in Standard shader
+				else if (mat.HasProperty("_Color"))
+					mat.SetColor("_Color", mat.GetColor("_Color") * tint);
+			}
+		}
 
-        rb = GetComponent<Rigidbody>();
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
-        
-        // Ensure constraints are set so physics doesn't tip the player over
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+		if (!IsOwner) return;
+		audioListener.enabled = true;
+		playerCamera.enabled = true;
+	}
 
-        if (audioListener != null) audioListener.enabled = true;
-        if (playerCamera != null) playerCamera.enabled = true;
-    }
-
-    /// <summary>
-    /// update every frame the movement, rotation,
-    /// shooting, and object spawn from the cannon
-    /// </summary>
-    private void Update()
-    {
-        if (!IsOwner) return;
-
-        HandleInput();
-        HandleRotation();
-        HandleCombat();
-        HandleObjectSpawning();
-    }
-
-    /// <summary>
-    /// Application of the movement is set at 50fps for stability,
-    /// doesn't change from it for network stability
-    /// </summary>
-    private void FixedUpdate()
-    {
-        if (!IsOwner) return;
-
-        ApplyMovement();
-    }
-
-    /// <summary>
-    /// Handles movement input including the jump
-    /// </summary>
-    private void HandleInput()
-    {
-        var keyboard = Keyboard.current;
-        if (keyboard == null) return;
-
-        rotationInput = 0;
-        if (keyboard.dKey.isPressed) rotationInput = 1;
-        else if (keyboard.aKey.isPressed) rotationInput = -1;
-
-        moveInput.y = 0;
-        if (keyboard.wKey.isPressed) moveInput.y = 1;
-        else if (keyboard.sKey.isPressed) moveInput.y = -1;
-
-        if (keyboard.spaceKey.wasPressedThisFrame && IsGrounded())
-        {
-            jumpRequested = true;
-        }
-    }
-
-    /// <summary>
-    /// handles rotation from the a/d keys
-    /// </summary>
-    private void HandleRotation()
-    {
-        float rotation = rotationInput * rotationSpeed * Time.deltaTime;
-        transform.Rotate(0, rotation, 0);
-    }
-
-    /// <summary>
-    /// Applies the movement of the player including jumping
-    /// </summary>
-    private void ApplyMovement()
-    {
-        Vector3 move = transform.forward * moveInput.y * movementSpeed;
-        
-        Vector3 velocity = rb.linearVelocity;
-        
-        velocity.x = move.x;
-        velocity.z = move.z;
-
-        if (jumpRequested)
-        {
-            velocity.y = jumpForce;
-            jumpRequested = false;
-        }
-
-        rb.linearVelocity = velocity;
-    }
-
-    /// <summary>
-    /// Shooting handler
-    /// </summary>
-    private void HandleCombat()
-    {
-        var mouse = Mouse.current;
-        if (mouse == null) return;
-
-        if (mouse.leftButton.wasPressedThisFrame)
-        {
-            BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation);
-        }
-    }
-
-    /// <summary>
-    /// Object creation from the shoot button with i and j to spawn objects
-    /// while testing
-    /// 
-    /// USE THIS SPECIFICALLY FOR TESTING
-    /// </summary>
-    private void HandleObjectSpawning()
-    {
-        var keyboard = Keyboard.current;
-        if (keyboard == null) return;
-
-        if (keyboard.iKey.wasPressedThisFrame)
-        {
-            SpawnObjectServerRpc();
-        }
-
-        if (keyboard.jKey.wasPressedThisFrame)
-        {
-            DespawnObjectServerRpc();
-        }
-    }
-
-    /// <summary>
-    /// quick check to see if we're grounded
-    /// </summary>
-    /// <returns> true if grounded, false if not</returns>
-    private bool IsGrounded()
-    {
-        // Simple raycast check for Rigidbody-based jumping
-        return Physics.Raycast(transform.position, Vector3.down, 1.1f);
-    }
-
-    /// <summary>
-    /// creates object on server
-    /// </summary>
     [ServerRpc]
-    private void SpawnObjectServerRpc()
-    {
-        instantiatedPrefab = Instantiate(spawnedPrefab);
-        instantiatedPrefab.GetComponent<NetworkObject>().Spawn(true);
-    }
+	private void BulletSpawningServerRpc(Vector3 position, Quaternion rotation, Color color)
+	{
+		BulletSpawningClientRpc(position, rotation, color);
+	}
 
-    /// <summary>
-    /// Despawns an object on the server
-    /// </summary>
-    [ServerRpc]
-    private void DespawnObjectServerRpc()
-    {
-        if (instantiatedPrefab != null)
-        {
-            instantiatedPrefab.GetComponent<NetworkObject>().Despawn(true);
-            Destroy(instantiatedPrefab);
-        }
-    }
-
-    /// <summary>
-    ///  creates the bullet on the  server side
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="rotation"></param>
-    [ServerRpc]
-    private void BulletSpawningServerRpc(Vector3 position, Quaternion rotation)
-    {
-        BulletSpawningClientRpc(position, rotation);
-    }
-
-    /// <summary>
-    /// Spawns the bullet on the clientside
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="rotation"></param>
-    [ClientRpc]
-    private void BulletSpawningClientRpc(Vector3 position, Quaternion rotation)
-    {
-        GameObject newBullet = Instantiate(bullet, position, rotation);
-        Rigidbody bulletRb = newBullet.GetComponent<Rigidbody>();
-        
-        if (bulletRb != null)
-        {
-            bulletRb.linearVelocity += Vector3.up * 2;
-            bulletRb.AddForce(newBullet.transform.forward * bulletForwardForce);
-        }
-    }
+	[ClientRpc]
+	private void BulletSpawningClientRpc(Vector3 position, Quaternion rotation, Color color)
+	{
+		GameObject newBullet = Instantiate(bullet, position, rotation);
+		newBullet.GetComponent<Renderer>().material.color = color;
+		newBullet.GetComponent<Rigidbody>().linearVelocity += Vector3.up * 2;
+		newBullet.GetComponent<Rigidbody>().AddForce(newBullet.transform.forward * -1500);
+	}
 }
