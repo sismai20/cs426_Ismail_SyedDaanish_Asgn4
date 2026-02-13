@@ -1776,7 +1776,8 @@ MonoBehaviour:
   bullet: {fileID: 4249073068765978225, guid: 76d37e7e2a95e904fa67cd7d6835a2f9, type: 3}
   audioListener: {fileID: 6051329216638272567}
   playerCamera: {fileID: 1151728652876988439}
-  mouseSensitivity: 50
+  mouseSensitivity: 75
+  jumpForce: 7
 --- !u!114 &7053942879420518951
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,8 +20,11 @@ public class PlayerMovement : NetworkBehaviour
     // reference to the camera
     [SerializeField] private Camera playerCamera;
 
-	public float mouseSensitivity = 50f;
+	public float mouseSensitivity = 70f;
 	private float xRotation = 0f;
+	
+	public float jumpForce = 5f;
+    private bool isGrounded;
 
     private Rigidbody rb;
 
@@ -48,28 +51,39 @@ public class PlayerMovement : NetworkBehaviour
 		rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
 	}
 	
-    void Update()
-    {
+	void CheckGrounded()
+	{
+		// cast a short ray downward from the player's position
+		isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
+	}
+	
+	void Update()
+	{
 		if (!IsOwner) return;
 
 		// mouse look
 		float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 		float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-		// rotate player body left/right
 		transform.Rotate(Vector3.up * mouseX);
 
-		// tilt camera up/down, clamped so you can't look behind yourself
 		xRotation -= mouseY;
 		xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 		playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+		// jump
+		CheckGrounded();
+		if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+		{
+			rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+		}
 
 		if (Input.GetButtonDown("Fire1"))
 		{
 			Color myColor = colors[(int)OwnerClientId];
 			BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation, myColor);
 		}
-    }
+	}
 
     public override void OnNetworkSpawn()
 	{

@@ -35,6 +35,9 @@ public class NetworkManagerUI : MonoBehaviour
         {
             // call the NetworkManager's StartHost() method
             // NetworkManager.Singleton.StartHost();
+			joinCodeInputField.gameObject.SetActive(false);
+			host_btn.gameObject.SetActive(false);
+			client_btn.gameObject.SetActive(false);
             StartHostRelay();
         });
 
@@ -43,6 +46,9 @@ public class NetworkManagerUI : MonoBehaviour
         {
             // call the NetworkManager's StartClient() method
             // NetworkManager.Singleton.StartClient();
+			joinCodeInputField.gameObject.SetActive(false);
+			host_btn.gameObject.SetActive(false);
+			client_btn.gameObject.SetActive(false);
             StartClientRelay(joinCodeInputField.text);
         });
     }
