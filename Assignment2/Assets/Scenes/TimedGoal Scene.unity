@@ -151,6 +151,10 @@ PrefabInstance:
       propertyPath: despawnDelaySeconds
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5127406064354122008, guid: 11470732c4da9431694931b7c355c18f, type: 3}
+      propertyPath: despawnDelay
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6049139312244020810, guid: 11470732c4da9431694931b7c355c18f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.3
@@ -788,8 +792,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1783721581}
   - {fileID: 1270015040}
+  - {fileID: 1783721581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1498,6 +1502,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4450479108328331908, guid: 11470732c4da9431694931b7c355c18f, type: 3}
       propertyPath: despawnDelaySeconds
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127406064354122008, guid: 11470732c4da9431694931b7c355c18f, type: 3}
+      propertyPath: despawnDelay
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6049139312244020810, guid: 11470732c4da9431694931b7c355c18f, type: 3}
@@ -2306,11 +2314,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 538909040045408540, guid: 88503a8ac3b854063a163aa3c12389e2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 233
+      value: 236
       objectReference: {fileID: 0}
     - target: {fileID: 538909040045408540, guid: 88503a8ac3b854063a163aa3c12389e2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 107
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 538909040045408540, guid: 88503a8ac3b854063a163aa3c12389e2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2469,6 +2477,14 @@ PrefabInstance:
     - target: {fileID: 4450479108328331908, guid: 11470732c4da9431694931b7c355c18f, type: 3}
       propertyPath: despawnDelaySeconds
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127406064354122008, guid: 11470732c4da9431694931b7c355c18f, type: 3}
+      propertyPath: despawnDelay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127406064354122008, guid: 11470732c4da9431694931b7c355c18f, type: 3}
+      propertyPath: timeLimitSeconds
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6049139312244020810, guid: 11470732c4da9431694931b7c355c18f, type: 3}
       propertyPath: m_LocalPosition.x
