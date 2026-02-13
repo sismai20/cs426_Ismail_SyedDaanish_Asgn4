@@ -8,6 +8,7 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Networking.Transport.Relay;
 using Unity.Netcode.Transports.UTP;
+using WebSocketSharp;
 
 public class NetworkManagerUI : MonoBehaviour
 {
@@ -28,11 +29,14 @@ public class NetworkManagerUI : MonoBehaviour
     // Awake() method is called and executed
     // Awake is always called before any Start functions.
 
+    [SerializeField] private AudioSource gameMusicAudioSource;
+
     private void Awake()
     {
         // add a listener to the host button
         host_btn.onClick.AddListener(() =>
         {
+
             // call the NetworkManager's StartHost() method
             // NetworkManager.Singleton.StartHost();
 			joinCodeInputField.gameObject.SetActive(false);
@@ -44,6 +48,9 @@ public class NetworkManagerUI : MonoBehaviour
         // add a listener to the client button
         client_btn.onClick.AddListener(() =>
         {
+
+            if (string.IsNullOrEmpty(joinCodeInputField.text) || joinCodeInputField.text == "Enter join code here...") return;
+            
             // call the NetworkManager's StartClient() method
             // NetworkManager.Singleton.StartClient();
 			joinCodeInputField.gameObject.SetActive(false);
@@ -90,6 +97,9 @@ public class NetworkManagerUI : MonoBehaviour
 
         // display the join code
         joinCodeText.text = joinCode;
+
+        gameMusicAudioSource.gameObject.SetActive(true);
+        gameMusicAudioSource.Play();
     }
 
     // start client relay
@@ -116,6 +126,8 @@ public class NetworkManagerUI : MonoBehaviour
 
         // start client
         NetworkManager.Singleton.StartClient();
+
+        gameMusicAudioSource.Play();
     }
 
 }
