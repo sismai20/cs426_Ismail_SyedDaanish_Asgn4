@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5969377960624985537}
   - component: {fileID: 8979082506695431009}
   - component: {fileID: 2148808748966392650}
-  - component: {fileID: 52724412916367807}
   m_Layer: 0
   m_Name: TimedGoal
   m_TagString: Goal
@@ -139,19 +138,3 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &52724412916367807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 600161412783340343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9c8f1baec6c2474e95ebf8970fe1a0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Target
-  ShowTopMostFoldoutHeaderGroup: 1
-  timeLimit: 10
-  moveStartDistance: 0.2
-  minMoveSpeed: 0.1
