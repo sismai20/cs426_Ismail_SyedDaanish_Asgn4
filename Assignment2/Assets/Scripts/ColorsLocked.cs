@@ -28,7 +28,7 @@ public class ColorsLocked : MonoBehaviour
         // allow gravity (falling) but prevent bouncing/launching upward
         if (rb.linearVelocity.y > 0)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        //    rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         }
     }
 
