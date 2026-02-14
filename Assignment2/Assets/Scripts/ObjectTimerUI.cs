@@ -63,24 +63,16 @@ public class ObjectTimerUI : MonoBehaviour
         {
             if (obj == null) continue;
 
-            if (obj.HasReachedGoal())
-            {
-                if (hideWhenGoalReached) continue;
-
-                AddLine(lines, $"{obj.name}: {goalLabel}", ref hasAnyLine);
-                continue;
-            }
-
             if (obj.IsTimerRunning())
             {
-                string timerLine = $"{obj.name}: {timerPrefix}{obj.GetSyncedTimeRemaining():F1}";
+                string timerLine = $"{timerPrefix}{obj.GetSyncedTimeRemaining():F1}";
                 AddLine(lines, timerLine, ref hasAnyLine);
                 continue;
             }
 
             if (!showTimerOnlyWhenRunning)
             {
-                AddLine(lines, $"{obj.name}: {timerPrefix}--", ref hasAnyLine);
+                AddLine(lines, $"{timerPrefix}--", ref hasAnyLine);
             }
         }
 
