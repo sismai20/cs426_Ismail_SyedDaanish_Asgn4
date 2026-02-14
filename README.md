@@ -7,9 +7,9 @@ CS 426 Spring 2026 Assignment 2
  - Fernando Lopez (flope8@uic.edu)
 
 ## Honor Among Thieves
-*Honor Among Thieves* is a 2-player co-op game where players work together to escape a maze before the time runs out.
+*Honor Among Thieves* is a 2-player co-op game where players work together to steal data from a computer before the time runs out.
 
-Red and Blue have pulled off their grandest heist yet: stealing computer data! Selling these on the black market should net them a couple thousand bucks. However, the computer's security protocols have been triggered, trapping them in a maze. Play as Red and Blue as you work together to escape the maze before you get caught!
+Red and Blue are pulling off their grandest heist yet: stealing computer data! Selling these on the black market should net them a couple thousand bucks. However, the computer's security protocols have been triggered, trapping them in a maze. Play as Red and Blue as you work together to steal computer data before you get caught!
 
 ### Formal Elements:
 - **Players:** 2, Cooperative Play
@@ -19,9 +19,9 @@ Red and Blue have pulled off their grandest heist yet: stealing computer data! S
 - **Rules:** Red objects can only be interacted with by the Red player, and blue objects can only be interacted with by the Blue player, ensuring co-operation to win the game. Objects that can be moved have to be done so within the time limit, before they reset to their original positions.
 - **Unique Rule/Procudure:** Since manipulatable objects are divided between both players, players will be required to coordinate with each other to solve the maze.
 - **Resources:** Players are given unlimited ammo and scattered platforming boxes to move around.
-- **Conflict:** Players must solve the maze to get out (puzzle-type conflict).
+- **Conflict:** Players must steal all data to get out (puzzle-type conflict).
 - **Boundaries:** The maze walls are high enough to prevent the player from jumping out of it. Only certain walls are breakable to ensure players don't just walk in a straight line to the exit.
-- **Outcome:** Both players exit the maze.
+- **Outcome:** All 10 data boxes have been stolen.
 - **Test Question for Serious Objective:** What flaws in computer architecture can hackers and thieves exploit to steal your data?
 - **Correct Answer for Serious Objective:** Firmware rootkits, Stack smashing, JTAG Exploitation etc.
 
