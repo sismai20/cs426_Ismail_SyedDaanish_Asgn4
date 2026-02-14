@@ -64,6 +64,7 @@ public class MovableObject : NetworkBehaviour
 
         if (collision.collider.CompareTag(playerTag))
         {
+			Debug.Log("Entering push state");
             timerRunning = true;
             PushNetworkState();
         }
