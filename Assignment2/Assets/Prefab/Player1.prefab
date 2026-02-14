@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 4107494595074037275}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -360,16 +360,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  speed: 2
-  colors:
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0.39524555, b: 1, a: 0}
+  movementSpeed: 8
+  rotationSpeed: 90
+  gravity: 20
+  jumpForce: 5
   cannon: {fileID: 5734067001913126162}
   bullet: {fileID: 4249073068765978225, guid: 76d37e7e2a95e904fa67cd7d6835a2f9, type: 3}
+  bulletForwardForce: 1500
+  spawnedPrefab: {fileID: 6412424734142825521, guid: bfb068a73fdaa884986ef3af54fb1735, type: 3}
   audioListener: {fileID: 6541799227114916183}
   playerCamera: {fileID: 6260994297337743200}
-  mouseSensitivity: 70
-  jumpForce: 5
 --- !u!114 &164037441466023726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,7 +441,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &7310951172801545870
 MonoBehaviour:
