@@ -23,7 +23,7 @@ Red and Blue have pulled off their grandest heist yet: stealing computer data! S
 - **Boundaries:** The maze walls are high enough to prevent the player from jumping out of it. Only certain walls are breakable to ensure players don't just walk in a straight line to the exit.
 - **Outcome:** Both players exit the maze.
 - **Test Question for Serious Objective:** What flaws in computer architecture can hackers and thieves exploit to steal your data?
-- **Correct Answer for Serious Objective:** TBD
+- **Correct Answer for Serious Objective:** Firmware rootkits, Stack smashing, JTAG Exploitation etc.
 
 ### Multiplayer Aspect:
 Both players play on their respective game applications. One player starts as a host, and shares their code with the other player, who joins as a client. 
