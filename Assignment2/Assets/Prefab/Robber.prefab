@@ -1769,7 +1769,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  speed: 15
+  normalSpeed: 12
+  normalAcceleration: 20
+  normalDamping: 6
+  slipperySpeed: 20
+  slipperyAcceleration: 5
+  slipperyDamping: 0.2
+  gripSpeed: 4
+  gripAcceleration: 35
+  gripDamping: 12
   colors:
   - {r: 0, g: 0, b: 1, a: 0}
   - {r: 1, g: 0, b: 0, a: 0}

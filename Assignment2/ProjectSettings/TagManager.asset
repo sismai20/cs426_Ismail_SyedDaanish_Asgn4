@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Goal
   - Bullet
+  - SlipperyZone
+  - SLippery
+  - Slippery
+  - Grip
   layers:
   - Default
   - TransparentFX
